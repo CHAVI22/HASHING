@@ -1,127 +1,207 @@
+```json 
+
 { 
 
-  "message": "Processed successfully", 
+  "schema": { 
 
-  "file_count": 4, 
+    "fact_table": { 
 
-  "files": [ 
+      "name": "fact_table", 
 
-    "claims_profile.csv", 
+      "columns": [ 
 
-    "quotes_profile.csv", 
+        "dim_date_key", 
 
-    "customers_profile.csv", 
+        "claim_key", 
 
-    "policies_profile.csv" 
+        "policy_key", 
 
-  ], 
+        "customer_key", 
 
-  "prompt": "profiling summary", 
+        "quote_key", 
 
-  "structured_output": { 
+        "amount_claimed", 
 
-    "table_summaries": { 
+        "amount_paid", 
 
-      "claims": [ 
+        "premium", 
 
-        "claim_id: No nulls, 1000 unique values — good primary key candidate.", 
-
-        "policy_id: No nulls, 644 unique values — not a primary key but high cardinality.", 
-
-        "claim_date: No nulls, 339 unique values — temporal data, no issues.", 
-
-        "amount_claimed: No nulls, high variance, potential outliers (large claims) — review for data entry errors.", 
-
-        "amount_paid: No nulls, high variance, some outliers — possibly large payouts or data anomalies.", 
-
-        "status: No nulls, 3 unique values — categorical, well-structured." 
-
-      ], 
-
-      "quotes": [ 
-
-        "quote_id: No nulls, 1000 unique values — good primary key candidate.", 
-
-        "customer_id: No nulls, 464 unique values — not a primary key but high cardinality.", 
-
-        "quote_date: No nulls, 340 unique values — temporal data, no issues.", 
-
-        "premium_quoted: No nulls, high variance, potential outliers (large quotes) — review for data entry errors.", 
-
-        "status: No nulls, 3 unique values — categorical, well-structured.", 
-
-        "coverage_type: No nulls, 3 unique values — categorical, well-structured." 
-
-      ], 
-
-      "customers": [ 
-
-        "first_name: No nulls, 360 unique values — not a primary key but high cardinality.", 
-
-        "last_name: No nulls, 485 unique values — not a primary key but high cardinality.", 
-
-        "dob: No nulls, 981 unique values — temporal data, no issues.", 
-
-        "email: No nulls, 998 unique values — not a primary key but high cardinality.", 
-
-        "phone_number: No nulls, 1000 unique values — good primary key candidate.", 
-
-        "gender: No nulls, 2 unique values — categorical, well-structured.", 
-
-        "address_line1: No nulls, 1000 unique values — good primary key candidate.", 
-
-        "address_line2: No nulls, 782 unique values — not a primary key but high cardinality.", 
-
-        "city: No nulls, 968 unique values — not a primary key but high cardinality.", 
-
-        "state: No nulls, 50 unique values — categorical, well-structured.", 
-
-        "zip_code: No nulls, 997 unique values — not a primary key but high cardinality.", 
-
-        "country: No nulls, 236 unique values — not a primary key but high cardinality.", 
-
-        "customer_id: No nulls, 1000 unique values — good primary key candidate.", 
-
-        "status: No nulls, 3 unique values — categorical, well-structured." 
-
-      ], 
-
-      "policies": [ 
-
-        "policy_id: No nulls, 1000 unique values — good primary key candidate.", 
-
-        "customer_id: No nulls, 633 unique values — not a primary key but high cardinality.", 
-
-        "start_date: No nulls, 335 unique values — temporal data, no issues.", 
-
-        "end_date: No nulls, 472 unique values — temporal data, no issues.", 
-
-        "premium: No nulls, high variance, some outliers — possibly large premiums or data anomalies.", 
-
-        "coverage_type: No nulls, 3 unique values — categorical, well-structured.", 
-
-        "status: No nulls, 3 unique values — categorical, well-structured." 
+        "premium_quoted" 
 
       ] 
 
     }, 
 
-    "Key_points": [ 
+    "dimension_tables": [ 
 
-      "claim_id, quote_id, phone_number, address_line1, and customer_id are strong primary key candidates.", 
+      { 
 
-      "amount_claimed, amount_paid, premium_quoted, and premium show outliers, indicating rare large claims or quotes.", 
+        "name": "dim_date", 
 
-      "No date inconsistencies detected.", 
+        "columns": [ 
 
-      "Some columns have high cardinality; consider further investigation for policy_id, customer_id, email, and zip_code." 
+          "dim_date_key", 
+
+          "day", 
+
+          "month", 
+
+          "year" 
+
+        ] 
+
+      }, 
+
+      { 
+
+        "name": "dim_claim", 
+
+        "columns": [ 
+
+          "claim_key", 
+
+          "claim_id", 
+
+          "policy_id", 
+
+          "claim_date", 
+
+          "status" 
+
+        ] 
+
+      }, 
+
+      { 
+
+        "name": "dim_policy", 
+
+        "columns": [ 
+
+          "policy_key", 
+
+          "policy_id", 
+
+          "customer_id", 
+
+          "start_date", 
+
+          "end_date", 
+
+          "coverage_type", 
+
+          "status" 
+
+        ] 
+
+      }, 
+
+      { 
+
+        "name": "dim_customer", 
+
+        "columns": [ 
+
+          "customer_key", 
+
+          "customer_id", 
+
+          "first_name", 
+
+          "last_name", 
+
+          "dob", 
+
+          "email", 
+
+          "phone_number", 
+
+          "gender", 
+
+          "address_line1", 
+
+          "address_line2", 
+
+          "city", 
+
+          "state", 
+
+          "zip_code", 
+
+          "country", 
+
+          "status" 
+
+        ] 
+
+      }, 
+
+      { 
+
+        "name": "dim_quote", 
+
+        "columns": [ 
+
+          "quote_key", 
+
+          "quote_id", 
+
+          "customer_id", 
+
+          "quote_date", 
+
+          "status", 
+
+          "coverage_type" 
+
+        ] 
+
+      } 
 
     ] 
 
   }, 
 
-  "token_preview": "eyJhbGciOi..." 
+  "relationships": { 
+
+    "fact_table.dim_date_key": "dim_date.dim_date_key", 
+
+    "fact_table.claim_key": "dim_claim.claim_key", 
+
+    "fact_table.policy_key": "dim_policy.policy_key", 
+
+    "fact_table.customer_key": "dim_customer.customer_key", 
+
+    "fact_table.quote_key": "dim_quote.quote_key", 
+
+    "dim_claim.policy_id": "dim_policy.policy_id", 
+
+    "dim_policy.customer_id": "dim_customer.customer_id", 
+
+    "dim_quote.customer_id": "dim_customer.customer_id" 
+
+  }, 
+
+  "assumptions": [ 
+
+    "claim_id, policy_id, customer_id, and quote_id are natural keys and should be included as attributes in their respective dimension tables.", 
+
+    "claim_date, start_date, end_date, and quote_date are assumed to be dates and should be linked to the dim_date table.", 
+
+    "status and coverage_type are descriptive attributes and should be included in the dimension tables." 
+
+  ], 
+
+  "summary": { 
+
+    "total_fact_columns": 8, 
+
+    "total_dimension_columns": 27, 
+
+    "key_insights": "The schema design includes one fact table and five dimension tables. The fact table captures measures related to claims, policies, customers, and quotes, while the dimension tables provide detailed descriptive attributes for each entity. The dim_date table is included to handle date-related attributes." 
+
+  } 
 
 } 
 
- 
+``` 
